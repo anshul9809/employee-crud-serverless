@@ -17,8 +17,6 @@ functions:
           path: employees
           method: post
           cors: true  
-    layers:
-      - { Ref: NodeModulesLayer }
 
   getEmployee:
     handler: src/handlers/employeeHandler.getEmployee
@@ -27,8 +25,6 @@ functions:
           path: employees/{id}
           method: get
           cors: true  
-    layers:
-      - { Ref: NodeModulesLayer }
 
   listEmployees:
     handler: src/handlers/employeeHandler.listEmployees
@@ -37,8 +33,6 @@ functions:
           path: employees
           method: get
           cors: true  
-    layers:
-      - { Ref: NodeModulesLayer }
 
   updateEmployee:
     handler: src/handlers/employeeHandler.updateEmployee
@@ -47,8 +41,6 @@ functions:
           path: employees/{id}
           method: put
           cors: true  
-    layers:
-      - { Ref: NodeModulesLayer }
 
   deleteEmployee:
     handler: src/handlers/employeeHandler.deleteEmployee
@@ -57,8 +49,6 @@ functions:
           path: employees/{id}
           method: delete
           cors: true  
-    layers:
-      - { Ref: NodeModulesLayer }
 
   generateToken:
     handler: src/handlers/authHandler.generateToken
@@ -66,36 +56,19 @@ functions:
       - http:
           path: auth/token
           method: post
-          cors: true  
-    layers:
-      - { Ref: NodeModulesLayer }
-
+          cors: true 
   logout:
     handler: src/handlers/authHandler.logout
     events:
       - http:
           path: auth/logout
           method: post
-          cors: true  
-    layers:
-      - { Ref: NodeModulesLayer }
-
-layers:
-  nodeModulesLayer:
-    path: layer
-    compatibleRuntimes:
-      - nodejs18.x
-    description: Layer for shared node_modules like mongoose, jwt, etc.
+          cors: true 
 
 plugins:
   - serverless-dotenv-plugin 
-  - serverless-webpack
   - serverless-offline  
 
 custom:
   dotenv:
     path: .env 
-
-  webpack:
-    webpackConfig: './webpack.config.js'
-    includeModules: true
