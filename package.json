@@ -1,0 +1,24 @@
+{
+  "name": "employee-crud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/handler/employeeHandler.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Anshul Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "config": "^3.3.12",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^10.0.0",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^13.7.0"
+  }
+}

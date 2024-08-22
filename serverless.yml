@@ -1,0 +1,101 @@
+service: employee-crud-service
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  timeout: 20
+  environment:
+    MONGO_URI: ${env:MONGO_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+
+functions:
+  createEmployee:
+    handler: src/handlers/employeeHandler.createEmployee
+    events:
+      - http:
+          path: employees
+          method: post
+          cors: true  
+    layers:
+      - { Ref: NodeModulesLayer }
+
+  getEmployee:
+    handler: src/handlers/employeeHandler.getEmployee
+    events:
+      - http:
+          path: employees/{id}
+          method: get
+          cors: true  
+    layers:
+      - { Ref: NodeModulesLayer }
+
+  listEmployees:
+    handler: src/handlers/employeeHandler.listEmployees
+    events:
+      - http:
+          path: employees
+          method: get
+          cors: true  
+    layers:
+      - { Ref: NodeModulesLayer }
+
+  updateEmployee:
+    handler: src/handlers/employeeHandler.updateEmployee
+    events:
+      - http:
+          path: employees/{id}
+          method: put
+          cors: true  
+    layers:
+      - { Ref: NodeModulesLayer }
+
+  deleteEmployee:
+    handler: src/handlers/employeeHandler.deleteEmployee
+    events:
+      - http:
+          path: employees/{id}
+          method: delete
+          cors: true  
+    layers:
+      - { Ref: NodeModulesLayer }
+
+  generateToken:
+    handler: src/handlers/authHandler.generateToken
+    events:
+      - http:
+          path: auth/token
+          method: post
+          cors: true  
+    layers:
+      - { Ref: NodeModulesLayer }
+
+  logout:
+    handler: src/handlers/authHandler.logout
+    events:
+      - http:
+          path: auth/logout
+          method: post
+          cors: true  
+    layers:
+      - { Ref: NodeModulesLayer }
+
+layers:
+  nodeModulesLayer:
+    path: layer
+    compatibleRuntimes:
+      - nodejs18.x
+    description: Layer for shared node_modules like mongoose, jwt, etc.
+
+plugins:
+  - serverless-dotenv-plugin 
+  - serverless-webpack
+  - serverless-offline  
+
+custom:
+  dotenv:
+    path: .env 
+
+  webpack:
+    webpackConfig: './webpack.config.js'
+    includeModules: true
